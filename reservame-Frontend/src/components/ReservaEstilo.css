@@ -1,0 +1,8 @@
+/* I want a minimalistic style where there is a max width to the list of bookings */
+
+.reserva {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: gainsboro;
+}
