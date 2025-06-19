@@ -1,0 +1,7 @@
+Flask
+flask-blueprints
+pyodbc
+bcrypt
+python-dotenv
+
+#pip install -r requirements.txt

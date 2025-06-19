@@ -24,12 +24,18 @@ function HeaderUser() {
 
   return (
     <div>
-        <div className='encabezado'>
-        <button className='nav-button' onClick={navigateToHome}>Home</button>
-        <button className='nav-button' onClick={navigateToReservas}>Reservas</button>
-        <button className='nav-button' onClick={navigateToPerfil}>Perfil</button>
+      <div className='encabezado'>
+        <div className="app-title">
+          <h1>¡ReservaMe!</h1>
         </div>
-      
+        <div className="encabezado-buttons">
+          <button className='nav-button' onClick={navigateToHome}>Home</button>
+          <button className='nav-button' onClick={navigateToReservas}>Reservas</button>
+          <button className='nav-button' onClick={navigateToPerfil}>Perfil</button>
+        </div>
+
+      </div>
+
     </div>
   )
 }

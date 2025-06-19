@@ -4,6 +4,8 @@ import axios from 'axios';
 import "./Negocio.css";
 import { Modal } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 
 function Negocio(props) {
@@ -16,6 +18,17 @@ function Negocio(props) {
             });
     }
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -40,13 +53,15 @@ function Negocio(props) {
                         },
                     }}
                 >
-                    <div className="modal">
-                        <h2>nombre: {nombre}</h2>
-                        <p>direccion: {direccion}</p>
-                        <p>telefono: {telefono}</p>
+                <Box sx={style}>
+                    
+                <Typography id="modal-modal-title" variant="h6" component="h2">nombre: {nombre}</Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>direccion: {direccion}</Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>telefono: {telefono}</Typography>
                         <button onClick={reservar}>Reservar</button>
                         <button onClick={handleClose}>Cerrar</button>
-                    </div>
+                   
+                </Box>
                 </Modal>
                 <button onClick={reservar}>Reservar</button>
             </div>

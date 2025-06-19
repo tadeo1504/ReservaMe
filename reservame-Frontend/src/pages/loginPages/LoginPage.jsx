@@ -8,7 +8,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import "./loginPage.css";
 
-const preventDefault = (event) => event.preventDefault();
+// const preventDefault = (event) => event.preventDefault();
 
 export const LoginPage = () => {
 
@@ -27,28 +27,20 @@ export const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post("http://localhost:3001/api/reservas", {
-                email: formulario.email,
-                password: formulario.contrasena,
-            });
-
-            localStorage.setItem("token", response.data.token);
-            console.log("Inicio de sesión exitoso", response.data);
-            localStorage.setItem("id", response.data._id);
-            console.log("ID de usuario", response.data._id);
-            navigate("/home");
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                console.error("Credenciales incorrectas");
-                alert("Correo o contraseña incorrecta"); // Mostrar alerta o un mensaje en pantalla
-            } else {
-                console.error("Error en el inicio de sesión", error);
-            }
-        }
-    };
+    const login = ()=> {
+        console.log(formulario);
+        axios.post('http://127.0.0.1:5000/auth/login', {
+            email: formulario.email,
+            contrasena: formulario.contrasena
+        })
+        .then((response) => {
+            console.log(response);
+            navigate("/Home");
+        })
+        .catch((error) => {
+            console.error("Error en login:", error);
+        });
+    }        
 
     return (
         <div className='login-page-div'>
@@ -64,8 +56,8 @@ export const LoginPage = () => {
                 <h1 className='title-app'>ReservaMe</h1>
                 <div className='log-box'>
                     <h3 className='log-text'>Iniciar Sesión</h3>
-                    <form className="form-login" onSubmit={handleSubmit}>
-                        {/* Input usuario */}
+                    <form className="form-login" onSubmit={(e) => { e.preventDefault(); login(); }}>
+                    {/* Input usuario */}
                         <div className="username">
                             <input
                                 className='input-user'
@@ -99,7 +91,7 @@ export const LoginPage = () => {
                                 marginTop: '10px',
                                 fontSize: '0.9rem'
                             }}
-                            onClick={preventDefault}
+                            // onClick={preventDefault}
                         >
                             <Link href="#" underline="hover" style={{ color: '#2d2d2d' }}>
                                 ¿Olvidaste tu contraseña?
@@ -112,7 +104,7 @@ export const LoginPage = () => {
                                 marginTop: '10px',
                                 fontSize: '0.9rem'
                             }}
-                            onClick={preventDefault}
+                            // onClick={preventDefault}
                         >
                             <span
                                 className="link"

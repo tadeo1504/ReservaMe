@@ -1,17 +1,38 @@
 .encabezado {
     margin-bottom: 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     position: sticky;
-    width: 100%;
+    top: 0;
+    /* width: 100%; */
     background-color: #e8e6e3;
     padding: 10px 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+}
+.app-title {
+    /* font-size: 1.5em; */
+    /* font-weight: bold; */
+    color: #333;
+    text-align: center;
+    margin-left: 20px;
+
 }
 
-.encabezado button {
-    background-color: #4CAF50;
+.encabezado-buttons {
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+   
+    font-size: 16px;
+    margin: 4px 2px;
+    gap: 10px;
+    
+
+    
+}
+
+.encabezado-buttons button {
     color: white;
     border: none;
     padding: 10px 20px;
@@ -20,11 +41,12 @@
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
+    gap: 10px;
     cursor: pointer;
     border-radius: 12px;
     transition: background-color 0.3s ease;
 }
 
 .encabezado button:hover {
-    background-color: #45a049;
+    background-color: grey;
 }
