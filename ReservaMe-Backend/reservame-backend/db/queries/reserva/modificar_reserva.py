@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def modificar_reserva(id_reserva, id_usuario=None, id_negocio=None, fecha=None, hora_inicio=None, hora_fin=None, estado=None):
     conexion = crear_conexion()

@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def modificar_usuario(id_usuario, nombre=None, apellido=None, telefono=None, email=None):
     conexion = crear_conexion()
@@ -8,7 +8,7 @@ def modificar_usuario(id_usuario, nombre=None, apellido=None, telefono=None, ema
     
     try:
         cursor = conexion.cursor()
-        query = "UPDATE usuarios SET "
+        query = "UPDATE usuario SET "
         params = []
 
         if nombre is not None:

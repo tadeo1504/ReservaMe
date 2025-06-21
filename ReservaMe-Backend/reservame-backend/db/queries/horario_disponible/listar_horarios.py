@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-import _mysql_connector.Error
+from mysql.connector import Error  
 
 def listar_horarios():
     conn = crear_conexion()
@@ -16,6 +16,9 @@ def listar_horarios():
                 HAVING reservas_actuales < cupo_max
             """)
             return cur.fetchall()
+    except Error as e:
+        print(f"Error al listar horarios disponibles: {e}")
+        return {"error": "Error al listar horarios disponibles."}
     finally:
         cerrar_conexion(conn)
         if cur:

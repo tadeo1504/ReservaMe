@@ -1,29 +1,24 @@
-from flask import Flask, jsonify
-from auth.routes import auth_bp
-# from routes.user import users_bp
-import os
-from dotenv import load_dotenv
+from flask import Flask
 from flask_cors import CORS
+from controllers.usuario_controller import usuario_bp
+from controllers.negocio_controller import negocio_bp
+from controllers.reserva_controller import reserva_bp
+from controllers.horario_controller import horario_bp
 
+def create_app():
+    app = Flask(__name__)
+    
+    # Habilitar CORS para permitir conexión con frontend (ej: React)
+    CORS(app)
 
-load_dotenv()  # Carga las variables de entorno
+    # Registrar Blueprints
+    app.register_blueprint(usuario_bp, url_prefix='/api/usuarios')
+    app.register_blueprint(negocio_bp, url_prefix='/api/negocios')
+    app.register_blueprint(reserva_bp, url_prefix='/api/reservas')
+    app.register_blueprint(horario_bp, url_prefix='/api/horarios')
 
-app = Flask(__name__)
-CORS(app)  # Habilita CORS globalmente
-
-# Registrar Blueprints
-app.register_blueprint(auth_bp, url_prefix='/auth')
-# app.register_blueprint(users_bp, url_prefix='/users')
-
-# Manejo de errores generales
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({"error": "Ruta no encontrada"}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({"error": "Error interno del servidor"}), 500
+    return app
 
 if __name__ == '__main__':
-    port = int(os.getenv("PORT", 5000))  # Usa el puerto del .env o 5000 por defecto
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app = create_app()
+    app.run(debug=True)

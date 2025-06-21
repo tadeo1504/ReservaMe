@@ -1,5 +1,5 @@
-import _mysql_connector
-from _mysql_connector import Error
+import mysql.connector
+from mysql.connector import Error
 from dotenv import load_dotenv
 import os
 
@@ -7,7 +7,7 @@ load_dotenv()  # Load environment variables from .env file
 
 def crear_conexion():
     try:
-       conexion = _mysql_connector.connect(
+       conexion = mysql.connector.connect(
        host=os.getenv("DB_HOST"),
        user=os.getenv("DB_USER"),
        password=os.getenv("DB_PASSWORD"),

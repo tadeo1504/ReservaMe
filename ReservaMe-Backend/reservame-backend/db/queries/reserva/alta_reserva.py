@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado):
     conexion = crear_conexion()

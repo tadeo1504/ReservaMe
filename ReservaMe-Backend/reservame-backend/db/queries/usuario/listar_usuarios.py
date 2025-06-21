@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def listar_usuarios():
     conexion = crear_conexion()
@@ -8,7 +8,7 @@ def listar_usuarios():
     
     try:
         cursor = conexion.cursor(dictionary=True)
-        query = "SELECT * FROM usuarios"
+        query = "SELECT * FROM usuario"
         cursor.execute(query)
         usuarios = cursor.fetchall()
         

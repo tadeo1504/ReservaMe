@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 import hashlib
 
 def hash_contrasena(contrasena):
@@ -14,7 +14,8 @@ def alta_usuario(nombre, apellido, telefono, email, contrasena, rol):
         contrasena_hash = hash_contrasena(contrasena)
         cursor = conexion.cursor()
         query = """
-        INSERT INTO usuarios (nombre, apellido, telefono, email, contrasena, rol)
+        INSERT INTO Usuario
+        (nombre, apellido, telefono, correo, contrasena_hash, rol)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
         cursor.execute(query, (nombre, apellido, telefono, email, contrasena_hash, rol))

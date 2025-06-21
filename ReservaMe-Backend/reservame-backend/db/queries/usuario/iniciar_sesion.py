@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 from dotenv import load_dotenv
 import hashlib
 
@@ -12,7 +12,7 @@ def iniciar_sesion(email, contrasena):
         cursor = conexion.cursor(dictionary=True)
         contrasena_hash = hashlib.sha256(contrasena.encode()).hexdigest()  # Hash de la contraseña
         query = """
-        SELECT * FROM usuarios WHERE email = %s AND contrasena = %s
+        SELECT * FROM usuario WHERE email = %s AND contrasena = %s
         """
         cursor.execute(query, (email, contrasena_hash))
         usuario = cursor.fetchone()

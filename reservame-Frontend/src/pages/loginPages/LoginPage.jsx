@@ -29,7 +29,7 @@ export const LoginPage = () => {
 
     const login = ()=> {
         console.log(formulario);
-        axios.post('http://127.0.0.1:5000/auth/login', {
+        axios.post('http://127.0.0.1:5000/api/usuarios/iniciar_sesion', {
             email: formulario.email,
             contrasena: formulario.contrasena
         })

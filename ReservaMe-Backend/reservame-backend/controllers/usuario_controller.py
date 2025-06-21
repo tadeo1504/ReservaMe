@@ -1,10 +1,12 @@
-from db.queries.usuario import (
-    modificar_usuario,
-    iniciar_sesion,
-    alta_usuario,
-    baja_usuario,
-    listar_usuarios
-)
+
+#change import to match your structure
+from db.queries.usuario.listar_usuarios import listar_usuarios
+from db.queries.usuario.iniciar_sesion import iniciar_sesion
+from db.queries.usuario.alta_usuario import alta_usuario
+from db.queries.usuario.modificar_usuario import modificar_usuario
+from db.queries.usuario.baja_usuario import baja_usuario
+
+
 from flask import Blueprint, request, jsonify
 
 usuario_bp = Blueprint('usuario', __name__)

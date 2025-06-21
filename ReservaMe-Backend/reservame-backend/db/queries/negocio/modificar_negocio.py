@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def modificar_negocio(id_negocio, id_duenio, nombre=None, descripcion=None, telefono_contacto=None, email=None):
     conexion = crear_conexion()

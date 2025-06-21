@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def alta_negocio(nombre, descripcion, direccion, telefono_contacto, id_duenio, email):
     conexion = crear_conexion()

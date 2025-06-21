@@ -1,5 +1,5 @@
 from conexion import crear_conexion, cerrar_conexion
-from _mysql_connector import Error
+from mysql.connector import Error
 
 def obtener_usuario(id_usuario):
     conexion = crear_conexion()
@@ -8,7 +8,7 @@ def obtener_usuario(id_usuario):
     
     try:
         cursor = conexion.cursor(dictionary=True)
-        query = "SELECT * FROM usuarios WHERE id_usuario = %s"
+        query = "SELECT * FROM usuario WHERE id_usuario = %s"
         cursor.execute(query, (id_usuario,))
         usuario = cursor.fetchone()
         
