@@ -12,7 +12,7 @@ def iniciar_sesion(email, contrasena):
         cursor = conexion.cursor(dictionary=True)
         contrasena_hash = hashlib.sha256(contrasena.encode()).hexdigest()  # Hash de la contraseña
         query = """
-        SELECT * FROM usuario WHERE email = %s AND contrasena = %s
+        SELECT * FROM usuario WHERE correo = %s AND contrasena_hash = %s
         """
         cursor.execute(query, (email, contrasena_hash))
         usuario = cursor.fetchone()
@@ -20,7 +20,7 @@ def iniciar_sesion(email, contrasena):
         if usuario:
             return usuario  # Retorna el usuario encontrado
         else:
-            return True
+            return {"error": "Credenciales incorrectas"} 
     
     except Error as e:
         print(f"Error al iniciar sesión: {e}")

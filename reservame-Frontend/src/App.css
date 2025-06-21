@@ -1,11 +1,15 @@
 
-
-body,
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind typography;
+@tailwind forms;
+/* body,
 html {
   margin: 0;
   text-align: center;
   padding: 0;
   height: 100%;
   font-family: 'Arial', sans-serif;
-}
+} */
 /*  */

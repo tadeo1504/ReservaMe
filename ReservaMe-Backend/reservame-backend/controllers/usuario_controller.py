@@ -29,13 +29,20 @@ def registrar_usuario_route():
 
 @usuario_bp.route('/iniciar_sesion', methods=['POST'])
 def iniciar_sesion_route():
-    data_json = request.get_json()
-    email = data_json.get('email')
-    contrasena_hash = data_json.get('contrasena_hash')
-    resultado = iniciar_sesion(email, contrasena_hash)
+    data = request.get_json()
+    email = data.get('email')
+    contrasena = data.get('contrasena')
+    
+    resultado = iniciar_sesion(email, contrasena)
+
+    # Si viene dict con 'error' -> 401
     if isinstance(resultado, dict) and 'error' in resultado:
-        return jsonify(resultado), 401
-    return jsonify(resultado), 200
+        return jsonify({"ok": False, "mensaje": resultado['error']}), 401
+
+    # Si vino un usuario válido
+    return jsonify({"ok": True, "usuario": resultado}), 200
+
+
 
 @usuario_bp.route('/modificar/<int:id_usuario>', methods=['PUT'])
 def modificar_usuario_route(id_usuario):

@@ -1,21 +1,10 @@
-import React, { use } from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import "./ListaNegocios.css";
+import React, { useState, useEffect } from 'react';
 import Negocio from '../../components/Negocio';
-import { useNavigate } from 'react-router-dom';
 import HeaderUser from '../../components/HeaderUser';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import Buscador from '../../components/Buscador';
 
 function ListaNegocios() {
-
-    // const reservar = () => {
-    //     axios.put('http://localhost:3001/api/reservas/' + id)
-    //         .then((response) => {
-    //             console.log(response);
-    //         });
-    // }
-
-    // hardcodear una lista de negocios con un useEffect
     const [negocios, setNegocios] = useState([]);
 
     useEffect(() => {
@@ -39,37 +28,70 @@ function ListaNegocios() {
                 telefono: "123456789",
             },
         ]);
-    }
-    , []);  
+    }, []);
 
-    console.log(negocios);
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-100">
+            <HeaderUser />
+            <div className="flex flex-col md:flex-row gap-8 px-6 py-8 max-w-7xl mx-auto">
+                {/* Izquierda: Buscador + Mapa */}
+                <div className="md:w-1/2 flex flex-col items-center">
+                    <div className="w-full flex justify-center mb-6">
+                        <div className="w-full max-w-md">
+                            <Buscador />
+                        </div>
+                    </div>
+                   <div className="w-full max-w-md aspect-square rounded-xl shadow-lg overflow-hidden border border-blue-200 bg-white">
+                        <MapContainer
+                            center={[-34.9011, -56.1645]}
+                            zoom={13}
+                            className="w-full h-full"
+                            scrollWheelZoom={false}
+                        >
+                            <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            {negocios.map((negocio) => (
+                            <Marker
+                                key={negocio.id}
+                                position={[-34.9011 + negocio.id * 0.01, -56.1645 + negocio.id * 0.01]}
+                            >
+                                <Popup>
+                                <strong>{negocio.nombre}</strong><br />
+                                {negocio.direccion}<br />
+                                Tel: {negocio.telefono}
+                                </Popup>
+                            </Marker>
+                            ))}
+                        </MapContainer>
+                        </div>
 
-    
-
-
-
-return (
-    <div>
-        <HeaderUser />
-        <div className="reserva">
-           {/* mostrar los negocios que hay en el useState */}
-
-            {negocios.map((negocio) => (
-                
-                <Negocio
-                    key={negocio.id}
-                    id={negocio.id}
-                    nombre={negocio.nombre}
-                    direccion={negocio.direccion}
-                    telefono={negocio.telefono}
-                />
-            ))}
-            
-
-            {/* <button onClick={reservar}>Reservar</button> */}
+                </div>
+                {/* Derecha: Destacados del día */}
+                <div className="md:w-1/2 flex flex-col">
+                    <h2 className="text-2xl font-bold text-cyan-700 mb-6 text-center md:text-left">
+                        Destacados del día
+                    </h2>
+                    <div className="flex flex-col gap-6">
+                        {negocios.map((negocio) => (
+                            <div
+                                key={negocio.id}
+                                className="bg-white/80 rounded-xl shadow-md border border-cyan-100 hover:shadow-lg transition-shadow"
+                            >
+                                <Negocio
+                                    id={negocio.id}
+                                    nombre={negocio.nombre}
+                                    direccion={negocio.direccion}
+                                    telefono={negocio.telefono}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-);
+    );
 }
 
-export default ListaNegocios
+export default ListaNegocios;
