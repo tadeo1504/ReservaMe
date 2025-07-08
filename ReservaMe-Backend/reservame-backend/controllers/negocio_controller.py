@@ -3,7 +3,8 @@ from db.queries.negocio import (
     listar_negocios,
     obtener_negocio,
     modificar_negocio,
-    baja_negocio
+    baja_negocio,
+    nuevos_negocios
 )
 from flask import Blueprint, request, jsonify
 
@@ -66,3 +67,12 @@ def baja_negocio_route(id_negocio):
         return jsonify(resultado), 400
 
     return jsonify({"message": "Negocio eliminado exitosamente."}), 200
+
+@negocio_bp.route('/negocios/nuevos', methods=['GET'])
+def nuevos_negocios_route():
+    resultado = nuevos_negocios()
+
+    if isinstance(resultado, dict) and 'error' in resultado:
+        return jsonify(resultado), 400
+
+    return jsonify(resultado), 200

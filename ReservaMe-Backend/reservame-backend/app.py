@@ -1,3 +1,4 @@
+# python -m app
 from flask import Flask
 from flask_cors import CORS
 from controllers.usuario_controller import usuario_bp

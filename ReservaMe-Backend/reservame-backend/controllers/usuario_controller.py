@@ -35,11 +35,13 @@ def iniciar_sesion_route():
     
     resultado = iniciar_sesion(email, contrasena)
 
+
     # Si viene dict con 'error' -> 401
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify({"ok": False, "mensaje": resultado['error']}), 401
 
     # Si vino un usuario válido
+
     return jsonify({"ok": True, "usuario": resultado}), 200
 
 

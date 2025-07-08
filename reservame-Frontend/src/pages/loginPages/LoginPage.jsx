@@ -21,37 +21,41 @@ export const LoginPage = () => {
     const navigate = useNavigate();
 
     const login = () => {
-    axios.post('http://127.0.0.1:5000/api/usuarios/iniciar_sesion', {
-        email: formulario.email,
-        contrasena: formulario.contrasena
-    })
-    .then(({ data }) => {
-        if (data.ok) {
-        // Guardar token si lo hay
-        navigate("/Home");
-        }
-    })
-    .catch(err => {
-        if (err.response && err.response.status === 401) {
-        // Mensaje personalizado si viene del backend
-        const mensaje = err.response.data?.mensaje || "Credenciales incorrectas";
-        setMensajeError(mensaje); // 👈 lo mostramos en pantalla
-        } else {
-        console.error("Error en login:", err);
-        setMensajeError("Fallo la conexión con el servidor");
-        }
-    });
+        axios.post('http://127.0.0.1:5000/api/usuarios/iniciar_sesion', {
+            email: formulario.email,
+            contrasena: formulario.contrasena
+        })
+            .then(({ data }) => {
+                if (data.ok) {
+                    console.log(data);
+                    // Guardar token si lo hay
+                    if (data.usuario.token) {
+                        localStorage.setItem("token", data.usuario.token);
+                    }
+                    navigate("/Home");
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.status === 401) {
+                    // Mensaje personalizado si viene del backend
+                    const mensaje = err.response.data?.mensaje || "Credenciales incorrectas";
+                    setMensajeError(mensaje); // 👈 lo mostramos en pantalla
+                } else {
+                    console.error("Error en login:", err);
+                    setMensajeError("Fallo la conexión con el servidor");
+                }
+            });
     };
 
     const [mensajeError, setMensajeError] = useState("");
-    
+
     const mostrarError = mensajeError ? (
         <div className="text-red-500 text-sm mt-2">
             {mensajeError}
         </div>
     ) : null;
 
-    
+
 
 
     return (

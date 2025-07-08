@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function HeaderUser() {
   const navigate = useNavigate();
@@ -16,6 +18,10 @@ function HeaderUser() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const agregarNegocio = () => {
+    // Lógica para agregar un nuevo negocio
+  };
 
   const navigateToFavoritos = () => {
     navigate('/Favoritos');
