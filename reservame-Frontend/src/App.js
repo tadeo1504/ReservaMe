@@ -4,10 +4,13 @@ import PrivateRoutes from './components/PrivateRoutes'; // Asegúrate de que la 
 import './App.css';
 import './index.css'; // o el nombre real del archivo donde pusiste las directivas
 import { LoginPage } from './pages/loginPages/LoginPage';
-import ReservaPagina from './pages/reservaPages/ReservaPagina';
-import ListaNegocios from './pages/homePages/ListaNegocios';
-import RegisterPage from './pages/RegisterPages/Register';
+import Home from './pages/homePages/Home';
+import Register from './pages/registerPages/Register';
 import 'leaflet/dist/leaflet.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Explorar from './pages/ExplorarPages/Explorar';
+import NegocioReservaDetalle from './pages/Negocio/NegocioReservaDetalle';
+
 
 
 function App() {
@@ -17,12 +20,13 @@ function App() {
         <Routes>
           {/* Rutas públicas */}
           <Route path='login' element={<LoginPage />} />
-          <Route path='register' element={<RegisterPage />} />
+          <Route path='register' element={<Register />} />
 
           {/* Rutas privadas */}
           <Route element={<PrivateRoutes />}>
-            <Route path='/Home' element={<ListaNegocios />} />
-            <Route path='/Reserva' element={<ReservaPagina />} />
+            <Route path='/Home' element={<Home />} />
+            <Route path='/Reserva/:id' element={<NegocioReservaDetalle />} />
+            <Route path='/Explorar' element={<Explorar />} />
           </Route>
 
           {/* Ruta por defecto */}

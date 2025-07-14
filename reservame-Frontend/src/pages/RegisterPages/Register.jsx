@@ -4,8 +4,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './RegisterPage.css';
 import axios from 'axios';
-import { useState } from 'react';	
-function RegisterPage() {
+import { useState } from 'react';
+function Register() {
 
     const [name, setName] = useState('');
     const [lastname, setLastname] = useState('');
@@ -13,15 +13,15 @@ function RegisterPage() {
     const [password, setPassword] = useState('');
 
     const register = () => {
-        axios.post('http://127.0.0.1:5000/auth/register', 
-        {
-            nombre: name,
-            apellido: lastname,
-            email: email,
-            contrasena: password
-        }).then((response) => {
-            console.log(response);
-        });
+        axios.post('http://127.0.0.1:5000/auth/register',
+            {
+                nombre: name,
+                apellido: lastname,
+                email: email,
+                contrasena: password
+            }).then((response) => {
+                console.log(response);
+            });
     }
 
 
@@ -31,8 +31,8 @@ function RegisterPage() {
             <div className="register-page">
                 <h1>¡Bienvenido!</h1>
                 <div className='register-form'>
-                    
-                  
+
+
                     <div className="row">
                         <div className="input-group">
                             <label htmlFor="name">Nombre</label>
@@ -44,7 +44,7 @@ function RegisterPage() {
                         </div>
                     </div>
 
-              
+
                     <div className="row">
                         <div className="input-group">
                             <label htmlFor="email">Correo electrónico</label>
@@ -65,4 +65,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default Register;

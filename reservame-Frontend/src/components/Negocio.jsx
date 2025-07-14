@@ -1,72 +1,79 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import "./Negocio.css";
-import { Modal } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
+import React from 'react';
+import { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router-dom';
 
 function Negocio(props) {
-    const { id, nombre, direccion, telefono } = props
+    const { id, nombre, descripcion, direccion, telefono_contacto, mail } = props;
 
-    const reservar = () => {
-        axios.put('http://localhost:3001/api/reservas/' + id)
-            .then((response) => {
-                console.log(response);
-            });
-    }
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-      };
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const navigate = useNavigate();
+
     return (
-        <div>
-            <div className="reserva">
-                <p>nombre: {nombre}</p>
-                <button onClick={handleOpen}>Ver detalles</button>
-                <Modal
-                    className='modal'
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    slots={{ backdrop: Backdrop }}
-                    slotProps={{
-                        backdrop: {
-                            timeout: 500,
-                        },
-                    }}
+        <div className="bg-white rounded-lg shadow-md p-6 w-full  flex flex-col items-start">
+            <p className="text-lg font-semibold text-gray-800">{nombre}</p>
+            <p className="text-gray-600">{descripcion}</p>
+            <div className="flex space-x-2">
+                <button
+                    onClick={handleOpen}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                 >
-                <Box sx={style}>
-                    
-                <Typography id="modal-modal-title" variant="h6" component="h2">nombre: {nombre}</Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>direccion: {direccion}</Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>telefono: {telefono}</Typography>
-                        <button onClick={reservar}>Reservar</button>
-                        <button onClick={handleClose}>Cerrar</button>
-                   
-                </Box>
-                </Modal>
-                <button onClick={reservar}>Reservar</button>
+                    Ver detalles
+                </button>
+                <button
+                    onClick={() => navigate(`/Reserva/${id}`)}
+                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                >
+                    Reservar
+                </button>
             </div>
+            <Modal
+                show={open}
+                onHide={handleClose}
+                centered
+            >
+                <Modal.Body>
+                    <div className="flex flex-col items-start space-y-4">
+                        <h2 className="font-bold text-xl mb-2">
+                            Nombre: {nombre}
+                        </h2>
+                        <div className="text-gray-700">
+                            Descripción: {descripcion}
+                        </div>
+                        <div className="text-gray-700 mt-2">
+                            Dirección: {direccion}
+                        </div>
+                        <div className="text-gray-700 mt-2">
+                            Teléfono: {telefono_contacto}
+                        </div>
+                        <div className="text-gray-700 mt-2">
+                            Email: {mail}
+                        </div>
+                        <div className="flex space-x-2 mt-4">
+                            <button
+                                onClick={() => navigate(`/Reserva/${id}`)}
+                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                            >
+                                Reservar
+                            </button>
+                            <button
+                                onClick={handleClose}
+                                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+                            >
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
         </div>
-    )
+        // </div>
+    );
 }
 
-export default Negocio
+export default Negocio;

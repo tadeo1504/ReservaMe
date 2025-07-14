@@ -8,7 +8,7 @@ def baja_usuario(id_usuario):
     
     try:
         cursor = conexion.cursor()
-        query = "DELETE FROM usuarios WHERE id_usuario = %s"
+        query = "DELETE FROM usuario WHERE id_usuario = %s"
         cursor.execute(query, (id_usuario,))
         conexion.commit()
 

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from conexion import crear_conexion, cerrar_conexion
 from mysql.connector import Error
 from dotenv import load_dotenv
@@ -28,13 +29,24 @@ def iniciar_sesion(email, contrasena):
         usuario = cursor.fetchone()
         # Si el usuario existe, generamos un token JWT
         if usuario:
+            # Si el usuario es dueño, obtenemos su negocio asociado
+            if usuario['rol'] == 'duenio':
+                query_negocio = "SELECT id FROM negocios WHERE id_duenio = %s"
+                cursor.execute(query_negocio, (usuario['id'],))
+                negocio = cursor.fetchone()
+                if negocio:
+                    usuario['id_negocio'] = negocio['id']
+                else:
+                    usuario['id_negocio'] = None  # por si no tiene aún negocio asociado
             # Generar token JWT
             payload = {
                 'id_usuario': usuario['id'],
                 'email': usuario['correo'],
-                'rol': usuario['rol']
+                'rol': usuario['rol'],
+                'exp': datetime.utcnow() + timedelta(hours=1)  # Expira en 1 hora
             }
             token = jwt.encode(payload, secret_key, algorithm='HS256')  
+            
 
             # Agregar el token al usuario
             usuario['token'] = token    

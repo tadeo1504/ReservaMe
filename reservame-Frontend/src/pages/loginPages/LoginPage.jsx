@@ -32,6 +32,9 @@ export const LoginPage = () => {
                     if (data.usuario.token) {
                         localStorage.setItem("token", data.usuario.token);
                     }
+                    if (data.usuario.rol) {
+                        localStorage.setItem("rol", data.usuario.rol);
+                    }
                     navigate("/Home");
                 }
             })

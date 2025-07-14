@@ -10,7 +10,7 @@ function ReservaPagina() {
     const [reservas, setReservas] = useState([]);
 
     const agregarFakeReserva = () => {
-        const countId = reservas.length + 1; 
+        const countId = reservas.length + 1;
         setReservas([
             ...reservas,
             {
@@ -31,23 +31,23 @@ function ReservaPagina() {
     //         });
     // }, []);
 
-  return (
-    <div>
-        <HeaderUser />
-        <div className="reserva-pagina">
-            <button onClick={agregarFakeReserva}>Agregar reserva falsa</button>
-            {reservas.map((reserva) => (
-                <Reserva
-                    key={reserva.id}
-                    id={reserva.id}
-                    hora={reserva.hora}
-                    fecha={reserva.fecha}
-                    estado={reserva.estado}
-                />
-            ))}
+    return (
+        <div>
+            <HeaderUser />
+            <div className="reserva-pagina">
+                <button onClick={agregarFakeReserva}>Agregar reserva falsa</button>
+                {reservas.map((reserva) => (
+                    <Reserva
+                        key={reserva.id}
+                        id={reserva.id}
+                        hora={reserva.hora}
+                        fecha={reserva.fecha}
+                        estado={reserva.estado}
+                    />
+                ))}
+            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default ReservaPagina

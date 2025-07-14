@@ -1,7 +1,7 @@
 from conexion import crear_conexion, cerrar_conexion
 from mysql.connector import Error
 
-def alta_negocio(nombre, descripcion, direccion, telefono_contacto, id_duenio, email):
+def alta_negocio(nombre, descripcion, direccion, telefono_contacto, id_duenio, email, coord_lat, coord_lon):
     conexion = crear_conexion()
     if conexion is None:
         return {"error": "No se pudo establecer la conexión a la base de datos."}
@@ -10,9 +10,9 @@ def alta_negocio(nombre, descripcion, direccion, telefono_contacto, id_duenio, e
         cursor = conexion.cursor()
         query = """
         INSERT INTO negocios (nombre, descripcion, direccion, telefono, email)
-        VALUES (%s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (nombre, descripcion, direccion, telefono_contacto, id_duenio, email))
+        cursor.execute(query, (nombre, descripcion, direccion, telefono_contacto, id_duenio, email, coord_lat, coord_lon))
         conexion.commit()
         return True
     except Error as e:

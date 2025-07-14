@@ -1,7 +1,7 @@
 from conexion import crear_conexion, cerrar_conexion
 from mysql.connector import Error
 
-def modificar_negocio(id_negocio, id_duenio, nombre=None, descripcion=None, telefono_contacto=None, email=None):
+def modificar_negocio(id_negocio, id_duenio, nombre=None, descripcion=None, telefono_contacto=None, email=None, coord_lat=None, coord_lon=None):
     conexion = crear_conexion()
     if conexion is None:
         return {"error": "No se pudo establecer la conexión a la base de datos."}
@@ -23,6 +23,10 @@ def modificar_negocio(id_negocio, id_duenio, nombre=None, descripcion=None, tele
         if email is not None:
             query += "email = %s, "
             params.append(email)
+        if coord_lat is not None and coord_lon is not None:
+            query += "coord_lat = %s, coord_lon = %s, "
+            params.append(coord_lat)
+            params.append(coord_lon)
 
         # Eliminar la última coma y espacio
         query = query.rstrip(", ")

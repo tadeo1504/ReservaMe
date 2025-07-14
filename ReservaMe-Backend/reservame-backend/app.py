@@ -14,9 +14,9 @@ def create_app():
 
     # Registrar Blueprints
     app.register_blueprint(usuario_bp, url_prefix='/api/usuarios')
-    app.register_blueprint(negocio_bp, url_prefix='/api/negocios')
-    app.register_blueprint(reserva_bp, url_prefix='/api/reservas')
-    app.register_blueprint(horario_bp, url_prefix='/api/horarios')
+    app.register_blueprint(negocio_bp, url_prefix='/api')
+    app.register_blueprint(reserva_bp, url_prefix='/api')
+    app.register_blueprint(horario_bp, url_prefix='/api')
 
     return app
 

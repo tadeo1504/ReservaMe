@@ -8,6 +8,15 @@ function HeaderUser() {
   const [perfilOpen, setPerfilOpen] = useState(false);
   const perfilRef = useRef(null);
 
+  //chequear si el usuario es duenio
+  const [esDuenio, setEsDuenio] = useState(false);
+  useEffect(() => {
+    const rol = localStorage.getItem('rol');
+    if (rol === 'duenio') {
+      setEsDuenio(true);
+    }
+  }, []);
+
   // Cierra el menú si se hace clic fuera
   useEffect(() => {
     function handleClickOutside(event) {
@@ -19,8 +28,8 @@ function HeaderUser() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const agregarNegocio = () => {
-    // Lógica para agregar un nuevo negocio
+  const administrarNegocio = () => {
+    // Lógica para administrar un negocio
   };
 
   const navigateToFavoritos = () => {
@@ -45,7 +54,7 @@ function HeaderUser() {
   return (
     <header className="w-full bg-blue-100 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-2 px-6">
-        <h1 className="text-xl font-bold text-blue-500 tracking-wide select-none">
+        <h1 className="text-xl font-bold text-blue-500 tracking-wide select-none cursor-pointer" onClick={() => navigate('/Home')} >
           ¡ReservaMe!
         </h1>
         <nav className="flex space-x-2">
@@ -61,6 +70,15 @@ function HeaderUser() {
           >
             Explorar
           </button>
+          {esDuenio && (
+            <button
+              className="px-3 py-1 rounded-md text-blue-700 hover:bg-blue-200 transition"
+              onClick={administrarNegocio}
+            >
+              Administrar Negocio
+            </button>
+          )}
+
           <div className="relative" ref={perfilRef}>
             <button
               className="px-3 py-1 rounded-md text-blue-700 hover:bg-blue-200 transition"

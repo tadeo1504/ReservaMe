@@ -8,7 +8,7 @@ def obtener_negocio(id_negocio):
     
     try:
         cursor = conexion.cursor(dictionary=True)
-        query = "SELECT * FROM negocio WHERE id_negocio = %s"
+        query = "SELECT * FROM negocios WHERE id_negocio = %s"
         cursor.execute(query, (id_negocio,))
         negocio = cursor.fetchone()
         

@@ -14,7 +14,7 @@ def alta_usuario(nombre, apellido, telefono, email, contrasena, rol):
         contrasena_hash = hash_contrasena(contrasena)
         cursor = conexion.cursor()
         query = """
-        INSERT INTO Usuario
+        INSERT INTO usuario
         (nombre, apellido, telefono, correo, contrasena_hash, rol)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
