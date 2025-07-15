@@ -19,7 +19,7 @@ def alta_reserva_route():
     hora_fin = data.get('hora_fin')
     estado = data.get('estado', 'pendiente')
 
-    resultado = alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado)
+    resultado = alta_reserva.alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado)
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400
@@ -28,7 +28,7 @@ def alta_reserva_route():
 
 @reserva_bp.route('/reservas', methods=['GET'])
 def listar_reservas_route():
-    resultado = listar_reservas()
+    resultado = listar_reservas.listar_reservas()
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400
@@ -37,7 +37,7 @@ def listar_reservas_route():
 
 @reserva_bp.route('/reservas/<int:id_reserva>', methods=['GET'])
 def obtener_reserva_route(id_reserva):
-    resultado = obtener_reserva(id_reserva)
+    resultado = obtener_reserva.obtener_reserva(id_reserva)
 
     if resultado is None or (isinstance(resultado, dict) and 'error' in resultado):
         return jsonify({"error": "Reserva no encontrada."}), 404
@@ -52,7 +52,7 @@ def modificar_reserva_route(id_reserva):
     hora_fin = data.get('hora_fin')
     estado = data.get('estado')
 
-    resultado = modificar_reserva(id_reserva, fecha, hora_inicio, hora_fin, estado)
+    resultado = modificar_reserva.modificar_reserva(id_reserva, fecha, hora_inicio, hora_fin, estado)
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400
@@ -61,7 +61,7 @@ def modificar_reserva_route(id_reserva):
 
 @reserva_bp.route('/reservas/<int:id_reserva>', methods=['DELETE'])
 def baja_reserva_route(id_reserva):
-    resultado = baja_reserva(id_reserva)
+    resultado = baja_reserva.baja_reserva(id_reserva)
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400

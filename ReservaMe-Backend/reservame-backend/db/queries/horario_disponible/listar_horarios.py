@@ -1,25 +1,25 @@
 from conexion import crear_conexion, cerrar_conexion
 from mysql.connector import Error  
 
-def listar_horarios():
+def listar_horarios(id_negocio):
     conn = crear_conexion()
-    if conn is None:
-        return {"error": "No se pudo establecer la conexión a la base de datos."}
     try:
-        with conn.cursor(dictionary=True) as cur:
-            cur.execute("""
-                SELECT hd.*,
-                    ( SELECT COUNT(*)
-                        FROM Reserva r
-                        WHERE r.id_horario_disponible = hd.id ) AS reservas_actuales
-                FROM HorarioDisponible hd
-                HAVING reservas_actuales < cupo_max
-            """)
-            return cur.fetchall()
+        if conn is None:
+            return {"error": "No se pudo conectar a la base de datos"}
+        
+        with conn.cursor(dictionary=True) as cursor:
+            query = "SELECT * FROM HorarioDisponible WHERE id_negocio = %s"
+            cursor.execute(query, (id_negocio,))
+            resultados = cursor.fetchall()
+
+            for r in resultados:
+                r["hora_inicio"] = str(r["hora_inicio"])
+                r["hora_fin"] = str(r["hora_fin"])
+            
+            return resultados
     except Error as e:
-        print(f"Error al listar horarios disponibles: {e}")
-        return {"error": "Error al listar horarios disponibles."}
+        return {"error": str(e)}
     finally:
         cerrar_conexion(conn)
-        if cur:
-            cur.close()
+        if conn:
+            conn.close()

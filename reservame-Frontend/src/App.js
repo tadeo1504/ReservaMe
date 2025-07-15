@@ -5,7 +5,7 @@ import './App.css';
 import './index.css'; // o el nombre real del archivo donde pusiste las directivas
 import { LoginPage } from './pages/loginPages/LoginPage';
 import Home from './pages/homePages/Home';
-import Register from './pages/registerPages/Register';
+import Register from './pages/RegisterPages/Register';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Explorar from './pages/ExplorarPages/Explorar';

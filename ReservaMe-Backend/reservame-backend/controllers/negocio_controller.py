@@ -57,7 +57,7 @@ def listar_negocios_route():
 
 @negocio_bp.route('/negocios/<int:id_negocio>', methods=['GET'])
 def obtener_negocio_route(id_negocio):
-    resultado = obtener_negocio(id_negocio)
+    resultado = obtener_negocio.obtener_negocio(id_negocio)
 
     if resultado is None or (isinstance(resultado, dict) and 'error' in resultado):
         return jsonify({"error": "Negocio no encontrado."}), 404

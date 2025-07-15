@@ -4,12 +4,13 @@ from db.queries.horario_disponible import (
     modificar_horario, baja_horario
 )
 
+
 horario_bp = Blueprint('horario', __name__)
 
 @horario_bp.route('/horarios_disponibles', methods=['POST'])
 def alta_horario_route():
     data = request.get_json()
-    res = alta_horario(
+    res = alta_horario.alta_horario(
         data.get('id_negocio'),
         data.get('fecha'),
         data.get('hora_inicio'),
@@ -21,9 +22,9 @@ def alta_horario_route():
     return jsonify({"message": "Horario creado", "id": res['id']}), 201
 
 
-@horario_bp.route('/horarios_disponibles', methods=['GET'])
-def listar_horarios_route():
-    res = listar_horarios()
+@horario_bp.route('/horarios_disponibles/<int:id_negocio>', methods=['GET'])
+def listar_horarios_route(id_negocio):
+    res = listar_horarios.listar_horarios(id_negocio)
     if isinstance(res, dict) and 'error' in res:
         return jsonify(res), 400
     return jsonify(res), 200
@@ -31,7 +32,7 @@ def listar_horarios_route():
 
 @horario_bp.route('/horarios_disponibles/<int:id_horario>', methods=['GET'])
 def obtener_horario_route(id_horario):
-    res = obtener_horario(id_horario)
+    res = obtener_horario.obtener_horario(id_horario)
     if not res:
         return jsonify({"error": "Horario no encontrado"}), 404
     return jsonify(res), 200
@@ -40,7 +41,7 @@ def obtener_horario_route(id_horario):
 @horario_bp.route('/horarios_disponibles/<int:id_horario>', methods=['PUT'])
 def modificar_horario_route(id_horario):
     data = request.get_json()
-    res = modificar_horario(
+    res = modificar_horario.modificar_horario(
         id_horario,
         data.get('fecha'),
         data.get('hora_inicio'),
@@ -54,7 +55,7 @@ def modificar_horario_route(id_horario):
 
 @horario_bp.route('/horarios_disponibles/<int:id_horario>', methods=['DELETE'])
 def baja_horario_route(id_horario):
-    res = baja_horario(id_horario)
+    res = baja_horario.baja_horario(id_horario)
     if isinstance(res, dict) and 'error' in res:
         return jsonify(res), 400
     return jsonify({"message": "Horario eliminado"}), 200
