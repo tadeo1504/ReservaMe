@@ -35,6 +35,9 @@ export const LoginPage = () => {
                     if (data.usuario.rol) {
                         localStorage.setItem("rol", data.usuario.rol);
                     }
+                    if (data.usuario.id_usuario) {
+                        localStorage.setItem("id_usuario", data.usuario.id_usuario);
+                    }
                     navigate("/Home");
                 }
             })

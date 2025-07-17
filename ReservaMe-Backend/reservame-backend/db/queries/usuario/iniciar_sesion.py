@@ -47,9 +47,14 @@ def iniciar_sesion(email, contrasena):
             }
             token = jwt.encode(payload, secret_key, algorithm='HS256')  
             
+            #agregar id_usuario en usuario
+            usuario['id_usuario'] = usuario['id']
 
             # Agregar el token al usuario
-            usuario['token'] = token    
+            usuario['token'] = token  
+            # Eliminar la contraseña del usuario antes de retornarlo
+            del usuario['contrasena_hash']
+
         if usuario:
             return usuario  # Retorna el usuario encontrado
         else:

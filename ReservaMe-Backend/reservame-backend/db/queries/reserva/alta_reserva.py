@@ -1,7 +1,7 @@
 from conexion import crear_conexion, cerrar_conexion
 from mysql.connector import Error
 
-def alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado):
+def alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado, id_horario_disponible=None):
     conexion = crear_conexion()
     if conexion is None:
         return {"error": "No se pudo establecer la conexión a la base de datos."}
@@ -9,10 +9,10 @@ def alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado):
     try:
         cursor = conexion.cursor()
         query = """
-        INSERT INTO reservas (id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO reservas (id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado, id_horario_disponible)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado))
+        cursor.execute(query, (id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado, id_horario_disponible))
         conexion.commit()
         return True
     except Error as e:

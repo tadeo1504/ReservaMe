@@ -6,6 +6,9 @@ from db.queries.reserva import (
     baja_reserva
 )
 from flask import Blueprint, request, jsonify
+from datetime import datetime
+
+
 
 reserva_bp = Blueprint('reserva', __name__)
 
@@ -16,10 +19,21 @@ def alta_reserva_route():
     id_negocio = data.get('id_negocio')
     fecha = data.get('fecha')
     hora_inicio = data.get('hora_inicio')
+    id_horario_disponible = data.get('id_horario_disponible')
     hora_fin = data.get('hora_fin')
     estado = data.get('estado', 'pendiente')
+    cupo_maximo = data.get('cupo_maximo')
 
-    resultado = alta_reserva.alta_reserva(id_usuario, id_negocio, fecha, hora_inicio, hora_fin, estado)
+    if cupo_maximo is not None or cupo_maximo < 1:
+        return jsonify({"error": "No hay cupos disponibles"}), 400
+
+    if not id_usuario or not id_negocio or not fecha or not hora_inicio or not hora_fin:
+        return jsonify({"error": "Faltan datos requeridos"}), 400
+    if estado not in ['pendiente', 'confirmada', 'cancelada']:
+        return jsonify({"error": "Estado inválido"}), 400
+
+
+    resultado = alta_reserva.alta_reserva(id_usuario=id_usuario, id_negocio=id_negocio, fecha=fecha, hora_inicio=hora_inicio, hora_fin=hora_fin, estado=estado, id_horario_disponible=id_horario_disponible)
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400

@@ -9,3 +9,88 @@ flask-cors
 
 #pip install -r requirements.txt
 
+
+#create table SubHorarioReserva
+CREATE TABLE SubHorarioReserva (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_horario_disponible INT NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fin TIME NOT NULL,
+    cupos_disponibles INT NOT NULL,
+    creado_en DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_horario_disponible) REFERENCES HorarioDisponible(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+# Alter table Reserva to use SubHorarioReserva
+ALTER TABLE Reserva
+DROP COLUMN fecha,
+DROP COLUMN hora_inicio,
+DROP COLUMN hora_fin;
+
+# Add new columns to Reserva
+ALTER TABLE Reserva
+ADD COLUMN id_sub_horario_reserva INT NOT NULL,
+ADD CONSTRAINT fk_sub_horario
+    FOREIGN KEY (id_sub_horario_reserva) REFERENCES SubHorarioReserva(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+# insert sample data into HorarioDisponible
+-- Belleza Total (id_negocio = 2)
+INSERT INTO HorarioDisponible (id_negocio, fecha, hora_inicio, hora_fin, cupo_max, creado_en)
+VALUES (2, '2025-07-20', '10:00:00', '12:00:00', 5, NOW());
+
+-- Spa Zenter (id_negocio = 5)
+INSERT INTO HorarioDisponible (id_negocio, fecha, hora_inicio, hora_fin, cupo_max, creado_en)
+VALUES (5, '2025-07-20', '14:00:00', '16:00:00', 3, NOW());
+
+-- Café Amanecer (id_negocio = 7)
+INSERT INTO HorarioDisponible (id_negocio, fecha, hora_inicio, hora_fin, cupo_max, creado_en)
+VALUES (7, '2025-07-22', '08:30:00', '10:00:00', 2, NOW());
+
+-- Barber Bros (id_negocio = 8)
+INSERT INTO HorarioDisponible (id_negocio, fecha, hora_inicio, hora_fin, cupo_max, creado_en)
+VALUES (8, '2025-07-23', '13:00:00', '15:00:00', 6, NOW());
+
+
+# Insert sample data into SubHorarioReserva
+-- Belleza Total: 10:00 a 12:00 (5 cupos)
+INSERT INTO SubHorarioReserva (id_horario_disponible, hora_inicio, hora_fin, cupos_disponibles)
+VALUES
+(1, '10:00:00', '10:30:00', 5),
+(1, '10:30:00', '11:00:00', 5),
+(1, '11:00:00', '11:30:00', 5),
+(1, '11:30:00', '12:00:00', 5);
+
+-- Spa Zenter: 14:00 a 16:00 (3 cupos)
+INSERT INTO SubHorarioReserva (id_horario_disponible, hora_inicio, hora_fin, cupos_disponibles)
+VALUES
+(2, '14:00:00', '14:30:00', 3),
+(2, '14:30:00', '15:00:00', 3),
+(2, '15:00:00', '15:30:00', 3),
+(2, '15:30:00', '16:00:00', 3);
+
+-- Peluquería Estilo Joven: 09:00 a 11:00 (4 cupos)
+INSERT INTO SubHorarioReserva (id_horario_disponible, hora_inicio, hora_fin, cupos_disponibles)
+VALUES
+(3, '09:00:00', '09:30:00', 4),
+(3, '09:30:00', '10:00:00', 4),
+(3, '10:00:00', '10:30:00', 4),
+(3, '10:30:00', '11:00:00', 4);
+
+-- Café Amanecer: 08:30 a 10:00 (2 cupos)
+INSERT INTO SubHorarioReserva (id_horario_disponible, hora_inicio, hora_fin, cupos_disponibles)
+VALUES
+(4, '08:30:00', '09:00:00', 2),
+(4, '09:00:00', '09:30:00', 2),
+(4, '09:30:00', '10:00:00', 2);
+
+-- Barber Bros: 13:00 a 15:00 (6 cupos)
+INSERT INTO SubHorarioReserva (id_horario_disponible, hora_inicio, hora_fin, cupos_disponibles)
+VALUES
+(5, '13:00:00', '13:30:00', 6),
+(5, '13:30:00', '14:00:00', 6),
+(5, '14:00:00', '14:30:00', 6),
+(5, '14:30:00', '15:00:00', 6);
