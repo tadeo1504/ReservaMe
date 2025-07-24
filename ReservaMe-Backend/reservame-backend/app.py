@@ -5,6 +5,7 @@ from controllers.usuario_controller import usuario_bp
 from controllers.negocio_controller import negocio_bp
 from controllers.reserva_controller import reserva_bp
 from controllers.horario_controller import horario_bp
+from controllers.subHorarioReserva_controller import subHorarioReserva_bp
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +18,7 @@ def create_app():
     app.register_blueprint(negocio_bp, url_prefix='/api')
     app.register_blueprint(reserva_bp, url_prefix='/api')
     app.register_blueprint(horario_bp, url_prefix='/api')
+    app.register_blueprint(subHorarioReserva_bp, url_prefix='/api')
 
     return app
 

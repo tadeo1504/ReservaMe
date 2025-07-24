@@ -23,6 +23,7 @@ def alta_reserva_route():
     hora_fin = data.get('hora_fin')
     estado = data.get('estado', 'pendiente')
     cupo_maximo = data.get('cupo_maximo')
+    id_sub_horario_reserva = data.get('id_sub_horario_reserva')
 
     if cupo_maximo is not None or cupo_maximo < 1:
         return jsonify({"error": "No hay cupos disponibles"}), 400
@@ -33,7 +34,7 @@ def alta_reserva_route():
         return jsonify({"error": "Estado inválido"}), 400
 
 
-    resultado = alta_reserva.alta_reserva(id_usuario=id_usuario, id_negocio=id_negocio, fecha=fecha, hora_inicio=hora_inicio, hora_fin=hora_fin, estado=estado, id_horario_disponible=id_horario_disponible)
+    resultado = alta_reserva.alta_reserva(id_usuario=id_usuario, id_negocio=id_negocio, fecha=fecha, hora_inicio=hora_inicio, hora_fin=hora_fin, estado=estado, id_horario_disponible=id_horario_disponible, id_sub_horario_reserva=id_sub_horario_reserva)
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400
