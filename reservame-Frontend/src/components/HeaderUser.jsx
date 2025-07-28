@@ -51,6 +51,11 @@ function HeaderUser() {
     navigate('/login');
   };
 
+  const handleMisReservas = () => {
+    setPerfilOpen(false);
+    navigate('/MisReservas');
+  };
+
   return (
     <header className="w-full bg-blue-100 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-2 px-6">
@@ -88,6 +93,12 @@ function HeaderUser() {
             </button>
             {perfilOpen && (
               <div className="absolute right-0 mt-2 w-36 bg-white border border-blue-200 rounded-md shadow-lg z-10">
+                <button
+                  className="block w-full text-left px-4 py-2 text-blue-700 hover:bg-blue-100"
+                  onClick={handleMisReservas}
+                >
+                  Mis reservas
+                </button>
                 <button
                   className="block w-full text-left px-4 py-2 text-blue-700 hover:bg-blue-100"
                   onClick={handleConfiguracion}

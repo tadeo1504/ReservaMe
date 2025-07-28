@@ -26,62 +26,18 @@ function NegocioReservaDetalle() {
         }
     }
 
-    const fetchHorarios = async () => {
-        try {
-            const response = await axios.get(`http://localhost:5000/api/horarios_disponibles/${id}`);
-            const data = response.data;
-            let subHorariosTotales = [];
-            data.forEach(h => {
-                const subs = generarSubHorarios(h);
-                subHorariosTotales = [...subHorariosTotales, ...subs];
-            });
-            setHorarios(subHorariosTotales);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error al obtener los horarios disponibles:", error);
-            setError("Error al obtener los horarios disponibles");
-        }
-    }
+    const fetchSubHorarios = async () => {
+        const response = await axios.get(`http://localhost:5000/api/sub_horarios_reserva/negocio/${id}`);
+        setHorarios(response.data); // ya no hay que generar subhorarios artificialmente
+    };
 
 
-    function generarSubHorarios(horario, intervaloMin = 30) {
-        const subHorarios = [];
-
-        const inicio = new Date(`1970-01-01T${horario.hora_inicio}`);
-        const fin = new Date(`1970-01-01T${horario.hora_fin}`);
-
-        let actual = new Date(inicio);
-
-        while (actual < fin) {
-            const siguiente = new Date(actual.getTime() + intervaloMin * 60000);
-            if (siguiente > fin) break;
-
-            const formatTime = (date) =>
-                date.toTimeString().split(" ")[0]; // Esto da "HH:MM:SS"
-
-
-            subHorarios.push({
-                id_horario_disponible: horario.id,
-                fecha: horario.fecha,
-                desde: formatTime(actual),
-                hasta: formatTime(siguiente),
-                cupo_max: horario.cupo_max,
-            });
-
-            actual = siguiente;
-        }
-        console.log(`Horario ${horario.hora_inicio} - ${horario.hora_fin} generó ${subHorarios.length} subhorarios`);
-        if (subHorarios.length === 0) {
-            console.log(`No se generaron subhorarios para el horario: ${horario.hora_inicio} - ${horario.hora_fin}`);
-        }
-        return subHorarios;
-    }
 
     // Llamada a la API para obtener los detalles del negocio y los horarios disponibles
 
     useEffect(() => {
         fetchNegocioDetalles();
-        fetchHorarios();
+        fetchSubHorarios();
     }, []);
 
     const handleReserva = async () => {
@@ -89,16 +45,16 @@ function NegocioReservaDetalle() {
 
         try {
             const response = await axios.post(`http://localhost:5000/api/reservas`, {
-                id_usuario: localStorage.getItem('id_usuario'), // Asumiendo que el ID del usuario está guardado en localStorage
+                id_usuario: localStorage.getItem('id_usuario'),
                 id_negocio: id,
-                id_horario_disponible: horarioSeleccionado.id_horario_disponible,
-                fecha: new Date(horarioSeleccionado.fecha).toISOString().split("T")[0], // YYYY-MM-DD
-                hora_inicio: horarioSeleccionado.desde,
-                hora_fin: horarioSeleccionado.hasta,
+                id_sub_horario_reserva: horarioSeleccionado.id,
                 estado: "pendiente",
-                cupo_maximo: horarioSeleccionado.cupo_max // Si necesitas enviar el cupo máximo, descomentar esta línea
+                id_horario_disponible: horarioSeleccionado.id_horario_disponible
             });
+            console.log('cupos_disponibles', horarioSeleccionado.cupo_maximo);
             console.log("Reserva creada:", response.data);
+            await fetchSubHorarios();
+
         } catch (error) {
             console.error("Error al crear la reserva:", error);
         }
@@ -135,7 +91,7 @@ function NegocioReservaDetalle() {
                                 className={`cursor-pointer p-2 rounded-md border ${horarioSeleccionado === horario ? 'bg-blue-200' : 'hover:bg-blue-100'
                                     }`}
                             >
-                                {horario.desde} - {horario.hasta} ({horario.fecha}) - Cupos: {horario.cupo_max}
+                                {horario.hora_inicio} - {horario.hora_fin} ({horario.fecha}) - Cupos: {horario.cupos_disponibles}
                             </li>
                         ))}
                     </ul>

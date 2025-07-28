@@ -3,10 +3,11 @@ from db.queries.reserva import (
     listar_reservas,
     obtener_reserva,
     modificar_reserva,
-    baja_reserva
+    baja_reserva,
+    obtener_reservas_usuario
 )
 from flask import Blueprint, request, jsonify
-from datetime import datetime
+from datetime import datetime, time, timedelta
 
 
 
@@ -17,24 +18,20 @@ def alta_reserva_route():
     data = request.get_json()
     id_usuario = data.get('id_usuario')
     id_negocio = data.get('id_negocio')
-    fecha = data.get('fecha')
-    hora_inicio = data.get('hora_inicio')
     id_horario_disponible = data.get('id_horario_disponible')
-    hora_fin = data.get('hora_fin')
     estado = data.get('estado', 'pendiente')
-    cupo_maximo = data.get('cupo_maximo')
+    creada_en = datetime.now()
     id_sub_horario_reserva = data.get('id_sub_horario_reserva')
 
-    if cupo_maximo is not None or cupo_maximo < 1:
-        return jsonify({"error": "No hay cupos disponibles"}), 400
+  
 
-    if not id_usuario or not id_negocio or not fecha or not hora_inicio or not hora_fin:
+    if not id_usuario or not id_negocio or not id_horario_disponible or not id_sub_horario_reserva:
         return jsonify({"error": "Faltan datos requeridos"}), 400
     if estado not in ['pendiente', 'confirmada', 'cancelada']:
         return jsonify({"error": "Estado inválido"}), 400
 
 
-    resultado = alta_reserva.alta_reserva(id_usuario=id_usuario, id_negocio=id_negocio, fecha=fecha, hora_inicio=hora_inicio, hora_fin=hora_fin, estado=estado, id_horario_disponible=id_horario_disponible, id_sub_horario_reserva=id_sub_horario_reserva)
+    resultado = alta_reserva.alta_reserva(id_usuario=id_usuario, id_negocio=id_negocio, estado=estado, creada_en=creada_en, id_horario_disponible=id_horario_disponible, id_sub_horario_reserva=id_sub_horario_reserva)
 
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400
@@ -82,3 +79,19 @@ def baja_reserva_route(id_reserva):
         return jsonify(resultado), 400
 
     return jsonify({"message": "Reserva eliminada exitosamente."}), 200
+
+@reserva_bp.route('/reservas/usuario/<int:id_usuario>', methods=['GET'])
+def obtener_reservas_usuario_route(id_usuario):
+    resultado = obtener_reservas_usuario.obtener_reservas_usuario(id_usuario)
+
+    if isinstance(resultado, dict) and 'error' in resultado:
+        return jsonify(resultado), 400
+
+    # Convertir hora_inicio y hora_fin a string para evitar problemas de serialización
+    for r in resultado:
+        if isinstance(r.get("hora_inicio"), (time, timedelta)):
+            r["hora_inicio"] = str(r["hora_inicio"])
+        if isinstance(r.get("hora_fin"), (time, timedelta)):
+            r["hora_fin"] = str(r["hora_fin"])
+
+    return jsonify(resultado), 200
