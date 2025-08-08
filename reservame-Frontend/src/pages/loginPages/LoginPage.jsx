@@ -98,7 +98,7 @@ export const LoginPage = () => {
                                 onChange={handleInputChange}
                                 autoComplete="username"
                             />
-                            <AccountCircleIcon className="absolute left-2 top-3 text-cyan-400" />
+                            <AccountCircleIcon className="absolute left-2 top-4 text-cyan-400" />
                         </div>
                         {/* Input contraseña */}
                         <div className="relative">
@@ -111,7 +111,7 @@ export const LoginPage = () => {
                                 onChange={handleInputChange}
                                 autoComplete="current-password"
                             />
-                            <LockIcon className="absolute left-2 top-3 text-cyan-400" />
+                            <LockIcon className="absolute left-2 top-4 text-cyan-400" />
                         </div>
                         {/* Botón */}
                         <button
@@ -144,6 +144,14 @@ export const LoginPage = () => {
                                 onClick={() => navigate("/register")}
                             >
                                 Registrarse
+                            </span>
+                        </div>
+                        <div className="flex justify-center mt-6">
+                            <span
+                                className="text-cyan-700 text-sm hover:underline cursor-pointer"
+                                onClick={() => navigate("/RegistroAdmin")}
+                            >
+                                Tenes un negocio? Registrate como dueño
                             </span>
                         </div>
                     </form>

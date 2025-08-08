@@ -17,13 +17,17 @@ def registrar_usuario_route():
     apellido = data.get('apellido')
     telefono = data.get('telefono')
     email = data.get('email')
-    contrasena_hash = data.get('contrasena_hash')
-    rol = data.get('rol')
+    contrasena = data.get('contrasena')
+    rol = data.get('rol') 
 
-    resultado = alta_usuario(nombre, apellido, telefono, email, contrasena_hash, rol)
-    
+    resultado = alta_usuario(nombre, apellido, telefono, email, contrasena, rol)
+
     if isinstance(resultado, dict) and 'error' in resultado:
         return jsonify(resultado), 400
+    
+    # avisar si el usuario ya existe
+    if not resultado:
+        return jsonify({"error": "El usuario ya existe."}), 400
     
     return jsonify({"message": "Usuario registrado exitosamente."}), 201
 
