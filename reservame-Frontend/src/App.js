@@ -10,6 +10,7 @@ import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Explorar from './pages/ExplorarPages/Explorar';
 import NegocioReservaDetalle from './pages/Negocio/NegocioReservaDetalle';
+import ListarReservasDeUsuario from './pages/VerReservasUsuarioPage/ListarReservasDeUsuario';
 
 
 
@@ -27,6 +28,7 @@ function App() {
             <Route path='/Home' element={<Home />} />
             <Route path='/Reserva/:id' element={<NegocioReservaDetalle />} />
             <Route path='/Explorar' element={<Explorar />} />
+            <Route path='/MisReservas' element={<ListarReservasDeUsuario />} />
           </Route>
 
           {/* Ruta por defecto */}

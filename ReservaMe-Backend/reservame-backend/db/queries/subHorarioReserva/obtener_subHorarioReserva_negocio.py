@@ -1,5 +1,6 @@
 from conexion import crear_conexion, cerrar_conexion
 from mysql.connector import Error
+from datetime import time, datetime, timedelta
 
 def obtener_subHorarioReserva_negocio(id_negocio):
     conexion = crear_conexion()
@@ -15,7 +16,18 @@ def obtener_subHorarioReserva_negocio(id_negocio):
             WHERE hd.id_negocio = %s
         """
         cursor.execute(query, (id_negocio,))
-        resultados = cursor.fetchall()
+        resultados_raw = cursor.fetchall()
+
+        resultados = []
+        for fila in resultados_raw:
+            fila_serializable = {}
+            for k, v in fila.items():
+                if isinstance(v, (datetime, time, timedelta)):
+                    fila_serializable[k] = str(v)
+                else:
+                    fila_serializable[k] = v
+            resultados.append(fila_serializable)
+
         return resultados
 
     except Error as e:
